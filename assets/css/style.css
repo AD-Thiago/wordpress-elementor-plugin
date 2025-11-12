@@ -1,0 +1,112 @@
+/**
+ * Elementor Neo Plugin Styles
+ * Optimized CSS with best practices
+ */
+
+/* Reset and Base Styles */
+.neo-example-widget {
+    position: relative;
+    padding: 2rem;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.neo-example-widget *,
+.neo-example-widget *::before,
+.neo-example-widget *::after {
+    box-sizing: inherit;
+}
+
+/* Typography */
+.neo-widget-title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--neo-title-color, #1a1a1a);
+    transition: color 0.3s ease;
+}
+
+.neo-widget-description {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--neo-text-color, #555);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .neo-example-widget {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .neo-example-widget {
+        padding: 1rem;
+    }
+    
+    .neo-widget-title {
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Accessibility */
+.neo-example-widget:focus-visible {
+    outline: 2px solid var(--neo-focus-color, #0073aa);
+    outline-offset: 2px;
+}
+
+/* Performance: GPU Acceleration */
+.neo-widget-title,
+.neo-widget-description {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .neo-widget-title {
+        --neo-title-color: #ffffff;
+    }
+    
+    .neo-widget-description {
+        --neo-text-color: #cccccc;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .neo-example-widget {
+        padding: 0;
+        page-break-inside: avoid;
+    }
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.neo-widget-animated {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .neo-widget-animated {
+        animation: none;
+    }
+    
+    .neo-widget-title,
+    .neo-widget-description {
+        transition: none;
+    }
+}
