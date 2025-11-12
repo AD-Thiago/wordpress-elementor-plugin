@@ -1,0 +1,1002 @@
+# WIDGETS ELEMENTOR ULTRA-PREMIUM - Neo Holística PARTE 2
+## Widgets 2-8: Nível Best-Class Premium Contínuo
+
+---
+
+## 🎯 WIDGET 2: NEO TERAPIA CARD PREMIUM
+
+### Propósito
+Card interativo de terapia com efeitos 3D, gradientes dinâmicos e micro-interações que transmitem a energia de cura
+
+### Características Premium
+
+**Estrutura Visual:**
+- **Gradiente Único por Terapia:** Cores específicas de cada modalidade
+- **Hover Effect 3D:** Transform perspective com profundidade
+- **Ícone Animado:** SVG com morphing suave ao hover
+- **Badge de Destaque:** Flutuante com pulse animation
+- **Partículas de Energia:** Micro-partículas ao redor do card
+- **Preço com Moeda Animada:** Counter effect no hover
+
+**Layout Interno:**
+- Ícone da terapia (60x60px, SVG animado)
+- Badge "Mais Procurada" (se destaque)
+- Título da terapia (Poppins 24px bold)
+- Descrição curta (Open Sans 16px)
+- Lista de benefícios principais (3 itens)
+- Duração da sessão (ícone relógio + texto)
+- Preço (destaque visual)
+- Botão CTA "Agendar Sessão" (gradiente)
+
+**Animações GSAP:**
+- **Entrance:** Scale in + rotate (0.8s, back.out)
+- **Hover 3D:** rotateX/Y seguindo mouse
+- **Icon Morph:** SVG path morphing (0.5s)
+- **Price Counter:** Incremento numérico animado
+- **Glow Pulse:** Box-shadow pulsante (2s loop)
+
+**Controles Elementor:**
+
+1. **Conteúdo da Terapia**
+   - Nome da Terapia: Text Input
+   - Descrição Curta: Textarea (150 chars)
+   - Ícone SVG: Code Editor | Upload SVG
+   - Ícone Alternative: Media Upload (PNG/SVG)
+   - Link da Terapia: URL Input
+   - Abrir em Nova Aba: Yes/No
+
+2. **Preço e Duração**
+   - Preço: Number (com prefixo R$)
+   - Mostrar "A partir de": Switcher
+   - Duração: Text Input (ex: "60 minutos")
+   - Mostrar Duração: Yes/No
+   - Destaque: Switcher (badge "Mais Procurada")
+
+3. **Benefícios (Repeater)**
+   - Benefício 1: Text Input
+   - Ícone Benefício 1: Icon Picker
+   - Benefício 2: Text Input
+   - Ícone Benefício 2: Icon Picker
+   - Benefício 3: Text Input
+   - Ícone Benefício 3: Icon Picker
+   - Máximo: 5 benefícios
+
+4. **Cores e Gradiente**
+   - Cor Primária: Color Picker (#4CAF50)
+   - Cor Secundária: Color Picker (#7B68EE)
+   - Ângulo Gradiente: Slider 0-360°
+   - Intensidade Gradiente: Slider 0-100%
+   - Usar Preset: Dropdown (Biomagnetismo | Reiki | Barras | Custom)
+
+5. **Efeitos 3D**
+   - Habilitar Hover 3D: Switcher (default ON)
+   - Intensidade 3D: Slider 5-30° (default 15°)
+   - Velocidade Transição: Slider 0.2-1s (default 0.4s)
+   - Glow no Hover: Switcher (default ON)
+   - Intensidade Glow: Slider 0-50px (default 20px)
+
+6. **Partículas de Energia**
+   - Habilitar Partículas: Switcher
+   - Quantidade: Slider 5-30 (default 10)
+   - Velocidade: Slider 1-10 (default 3)
+   - Cor Partículas: Color Picker | Herdar Primária
+
+7. **Animações**
+   - Animação Entrada: None | Fade In | Scale In | Rotate In
+   - Delay Entrada: Slider 0-2s
+   - Ícone Animation: None | Bounce | Rotate | Pulse
+   - Texto Animation: None | Fade | Slide Up
+   - Counter Animation: Yes/No
+
+8. **Botão CTA**
+   - Texto Botão: Text Input (default "Agendar Sessão")
+   - Ícone Botão: Icon Picker
+   - Estilo Botão: Gradiente | Sólido | Outline
+   - Hover Effect: Lift | Scale | Glow
+
+### Código PHP
+
+```php
+<?php
+class Neo_Terapia_Card_Widget extends \Elementor\Widget_Base {
+    
+    public function get_name() {
+        return 'neo-terapia-card';
+    }
+    
+    public function get_title() {
+        return __( 'Neo Terapia Card Premium', 'neo-holistica' );
+    }
+    
+    public function get_icon() {
+        return 'eicon-post-content';
+    }
+    
+    public function get_categories() {
+        return [ 'neo-holistica-premium' ];
+    }
+    
+    protected function register_controls() {
+        
+        // Conteúdo da Terapia
+        $this->start_controls_section(
+            'section_content',
+            [
+                'label' => __( 'Conteúdo', 'neo-holistica' ),
+            ]
+        );
+        
+        $this->add_control(
+            'terapia_nome',
+            [
+                'label' => __( 'Nome da Terapia', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => __( 'Biomagnetismo', 'neo-holistica' ),
+                'placeholder' => __( 'Digite o nome', 'neo-holistica' ),
+                'dynamic' => [
+                    'active' => true,
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'terapia_descricao',
+            [
+                'label' => __( 'Descrição Curta', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'rows' => 3,
+                'default' => __( 'Técnica não invasiva que equilibra o pH corporal através de ímãs de neodímio', 'neo-holistica' ),
+                'placeholder' => __( 'Máximo 150 caracteres', 'neo-holistica' ),
+            ]
+        );
+        
+        $this->add_control(
+            'terapia_icone_svg',
+            [
+                'label' => __( 'Ícone SVG', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::CODE,
+                'language' => 'html',
+                'rows' => 10,
+                'description' => __( 'Cole o código SVG do ícone', 'neo-holistica' ),
+            ]
+        );
+        
+        $this->add_control(
+            'terapia_link',
+            [
+                'label' => __( 'Link', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::URL,
+                'placeholder' => __( 'https://seu-site.com/terapia', 'neo-holistica' ),
+                'default' => [
+                    'url' => '#',
+                    'is_external' => false,
+                    'nofollow' => false,
+                ],
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        // Preço e Duração
+        $this->start_controls_section(
+            'section_pricing',
+            [
+                'label' => __( 'Preço e Duração', 'neo-holistica' ),
+            ]
+        );
+        
+        $this->add_control(
+            'terapia_preco',
+            [
+                'label' => __( 'Preço', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'min' => 0,
+                'max' => 1000,
+                'step' => 1,
+                'default' => 110,
+            ]
+        );
+        
+        $this->add_control(
+            'mostrar_apartir',
+            [
+                'label' => __( 'Mostrar "A partir de"', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __( 'Sim', 'neo-holistica' ),
+                'label_off' => __( 'Não', 'neo-holistica' ),
+                'return_value' => 'yes',
+                'default' => 'no',
+            ]
+        );
+        
+        $this->add_control(
+            'terapia_duracao',
+            [
+                'label' => __( 'Duração', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => '60 minutos',
+                'placeholder' => __( 'Ex: 60 minutos', 'neo-holistica' ),
+            ]
+        );
+        
+        $this->add_control(
+            'is_destaque',
+            [
+                'label' => __( 'Destacar Terapia', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __( 'Sim', 'neo-holistica' ),
+                'label_off' => __( 'Não', 'neo-holistica' ),
+                'return_value' => 'yes',
+                'default' => 'no',
+                'description' => __( 'Adiciona badge "Mais Procurada"', 'neo-holistica' ),
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        // Benefícios (Repeater)
+        $this->start_controls_section(
+            'section_beneficios',
+            [
+                'label' => __( 'Benefícios', 'neo-holistica' ),
+            ]
+        );
+        
+        $repeater = new \Elementor\Repeater();
+        
+        $repeater->add_control(
+            'beneficio_texto',
+            [
+                'label' => __( 'Benefício', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => __( 'Reduz dores crônicas', 'neo-holistica' ),
+            ]
+        );
+        
+        $repeater->add_control(
+            'beneficio_icone',
+            [
+                'label' => __( 'Ícone', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::ICONS,
+                'default' => [
+                    'value' => 'fas fa-check-circle',
+                    'library' => 'fa-solid',
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'beneficios_lista',
+            [
+                'label' => __( 'Lista de Benefícios', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'default' => [
+                    [
+                        'beneficio_texto' => __( 'Equilibra pH corporal', 'neo-holistica' ),
+                        'beneficio_icone' => [
+                            'value' => 'fas fa-check-circle',
+                            'library' => 'fa-solid',
+                        ],
+                    ],
+                    [
+                        'beneficio_texto' => __( 'Fortalece imunidade', 'neo-holistica' ),
+                        'beneficio_icone' => [
+                            'value' => 'fas fa-check-circle',
+                            'library' => 'fa-solid',
+                        ],
+                    ],
+                    [
+                        'beneficio_texto' => __( 'Reduz inflamações', 'neo-holistica' ),
+                        'beneficio_icone' => [
+                            'value' => 'fas fa-check-circle',
+                            'library' => 'fa-solid',
+                        ],
+                    ],
+                ],
+                'title_field' => '{{{ beneficio_texto }}}',
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        // Cores e Gradiente
+        $this->start_controls_section(
+            'section_colors',
+            [
+                'label' => __( 'Cores e Gradiente', 'neo-holistica' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+        
+        $this->add_control(
+            'color_preset',
+            [
+                'label' => __( 'Preset de Cores', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'biomagnetismo',
+                'options' => [
+                    'biomagnetismo' => __( 'Biomagnetismo (Verde→Violeta)', 'neo-holistica' ),
+                    'reiki' => __( 'Reiki (Violeta→Turquesa)', 'neo-holistica' ),
+                    'barras' => __( 'Barras de Access (Turquesa→Azul)', 'neo-holistica' ),
+                    'radionica' => __( 'Mesa Radiônica (Azul→Lilás)', 'neo-holistica' ),
+                    'radiestesia' => __( 'Radiestesia (Verde→Turquesa)', 'neo-holistica' ),
+                    'corte' => __( 'Corte Energético (Lilás→Violeta)', 'neo-holistica' ),
+                    'custom' => __( 'Personalizado', 'neo-holistica' ),
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'cor_primaria',
+            [
+                'label' => __( 'Cor Primária', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#4CAF50',
+                'condition' => [
+                    'color_preset' => 'custom',
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'cor_secundaria',
+            [
+                'label' => __( 'Cor Secundária', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#7B68EE',
+                'condition' => [
+                    'color_preset' => 'custom',
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'angulo_gradiente',
+            [
+                'label' => __( 'Ângulo do Gradiente', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => [
+                    'deg' => [
+                        'min' => 0,
+                        'max' => 360,
+                        'step' => 15,
+                    ],
+                ],
+                'default' => [
+                    'size' => 135,
+                    'unit' => 'deg',
+                ],
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        // Efeitos 3D
+        $this->start_controls_section(
+            'section_3d_effects',
+            [
+                'label' => __( 'Efeitos 3D', 'neo-holistica' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+        
+        $this->add_control(
+            'enable_3d',
+            [
+                'label' => __( 'Habilitar Hover 3D', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __( 'Sim', 'neo-holistica' ),
+                'label_off' => __( 'Não', 'neo-holistica' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+        
+        $this->add_control(
+            'intensidade_3d',
+            [
+                'label' => __( 'Intensidade 3D', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => [
+                    'deg' => [
+                        'min' => 5,
+                        'max' => 30,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'size' => 15,
+                    'unit' => 'deg',
+                ],
+                'condition' => [
+                    'enable_3d' => 'yes',
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'enable_glow',
+            [
+                'label' => __( 'Glow no Hover', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __( 'Sim', 'neo-holistica' ),
+                'label_off' => __( 'Não', 'neo-holistica' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+        
+        $this->add_control(
+            'intensidade_glow',
+            [
+                'label' => __( 'Intensidade Glow', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px' ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                        'step' => 5,
+                    ],
+                ],
+                'default' => [
+                    'size' => 20,
+                    'unit' => 'px',
+                ],
+                'condition' => [
+                    'enable_glow' => 'yes',
+                ],
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        // Continue com outras seções...
+    }
+    
+    protected function render() {
+        $settings = $this->get_settings_for_display();
+        
+        // Determinar cores baseado no preset
+        $color_presets = [
+            'biomagnetismo' => ['#4CAF50', '#7B68EE'],
+            'reiki' => ['#7B68EE', '#40E0D0'],
+            'barras' => ['#40E0D0', '#48D1CC'],
+            'radionica' => ['#48D1CC', '#DDA0DD'],
+            'radiestesia' => ['#4CAF50', '#40E0D0'],
+            'corte' => ['#DDA0DD', '#7B68EE'],
+        ];
+        
+        if ( 'custom' !== $settings['color_preset'] ) {
+            $colors = $color_presets[ $settings['color_preset'] ];
+            $cor1 = $colors[0];
+            $cor2 = $colors[1];
+        } else {
+            $cor1 = $settings['cor_primaria'];
+            $cor2 = $settings['cor_secundaria'];
+        }
+        
+        $gradient = sprintf(
+            'linear-gradient(%sdeg, %s, %s)',
+            $settings['angulo_gradiente']['size'],
+            $cor1,
+            $cor2
+        );
+        
+        $card_classes = 'neo-terapia-card';
+        if ( 'yes' === $settings['enable_3d'] ) {
+            $card_classes .= ' neo-terapia-card--3d';
+        }
+        if ( 'yes' === $settings['is_destaque'] ) {
+            $card_classes .= ' neo-terapia-card--destaque';
+        }
+        
+        ?>
+        <div class="<?php echo esc_attr( $card_classes ); ?>" 
+             style="background: <?php echo esc_attr( $gradient ); ?>;"
+             data-3d-enabled="<?php echo esc_attr( $settings['enable_3d'] ); ?>"
+             data-3d-intensity="<?php echo esc_attr( $settings['intensidade_3d']['size'] ); ?>"
+             data-glow-enabled="<?php echo esc_attr( $settings['enable_glow'] ); ?>">
+            
+            <?php if ( 'yes' === $settings['is_destaque'] ) : ?>
+                <div class="neo-terapia-badge">
+                    <span><?php esc_html_e( 'Mais Procurada', 'neo-holistica' ); ?></span>
+                </div>
+            <?php endif; ?>
+            
+            <div class="neo-terapia-card__content">
+                
+                <?php if ( ! empty( $settings['terapia_icone_svg'] ) ) : ?>
+                    <div class="neo-terapia-icon">
+                        <?php echo $settings['terapia_icone_svg']; ?>
+                    </div>
+                <?php endif; ?>
+                
+                <h3 class="neo-terapia-title">
+                    <?php echo esc_html( $settings['terapia_nome'] ); ?>
+                </h3>
+                
+                <p class="neo-terapia-description">
+                    <?php echo esc_html( $settings['terapia_descricao'] ); ?>
+                </p>
+                
+                <?php if ( ! empty( $settings['beneficios_lista'] ) ) : ?>
+                    <ul class="neo-terapia-beneficios">
+                        <?php foreach ( $settings['beneficios_lista'] as $beneficio ) : ?>
+                            <li>
+                                <?php \Elementor\Icons_Manager::render_icon( $beneficio['beneficio_icone'], [ 'aria-hidden' => 'true' ] ); ?>
+                                <span><?php echo esc_html( $beneficio['beneficio_texto'] ); ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+                
+                <div class="neo-terapia-footer">
+                    <div class="neo-terapia-meta">
+                        <?php if ( ! empty( $settings['terapia_duracao'] ) ) : ?>
+                            <span class="neo-terapia-duracao">
+                                <i class="far fa-clock"></i>
+                                <?php echo esc_html( $settings['terapia_duracao'] ); ?>
+                            </span>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="neo-terapia-pricing">
+                        <?php if ( 'yes' === $settings['mostrar_apartir'] ) : ?>
+                            <span class="neo-terapia-price-label">
+                                <?php esc_html_e( 'A partir de', 'neo-holistica' ); ?>
+                            </span>
+                        <?php endif; ?>
+                        
+                        <span class="neo-terapia-price" data-price="<?php echo esc_attr( $settings['terapia_preco'] ); ?>">
+                            <span class="neo-price-currency">R$</span>
+                            <span class="neo-price-value"><?php echo number_format( $settings['terapia_preco'], 0, ',', '.' ); ?></span>
+                        </span>
+                    </div>
+                </div>
+                
+                <?php
+                $target = $settings['terapia_link']['is_external'] ? ' target="_blank"' : '';
+                $nofollow = $settings['terapia_link']['nofollow'] ? ' rel="nofollow"' : '';
+                ?>
+                
+                <a href="<?php echo esc_url( $settings['terapia_link']['url'] ); ?>" 
+                   class="neo-terapia-button"<?php echo $target . $nofollow; ?>>
+                    <?php esc_html_e( 'Agendar Sessão', 'neo-holistica' ); ?>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                
+            </div>
+            
+        </div>
+        <?php
+    }
+}
+```
+
+### CSS Avançado
+
+```css
+/* Neo Terapia Card - Ultra Premium */
+
+.neo-terapia-card {
+    position: relative;
+    border-radius: 20px;
+    padding: 40px 30px;
+    color: #fff;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.neo-terapia-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: neo-card-shimmer 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes neo-card-shimmer {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-20%, -20%);
+    }
+}
+
+.neo-terapia-card--3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.neo-terapia-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.neo-terapia-card--destaque {
+    border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.neo-terapia-card--destaque::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+    border-radius: 20px;
+    animation: neo-border-glow 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes neo-border-glow {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.neo-terapia-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #4CAF50;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: neo-badge-pulse 2s ease-in-out infinite;
+    z-index: 10;
+}
+
+@keyframes neo-badge-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(255,255,255,0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255,255,255,0.6);
+    }
+}
+
+.neo-terapia-card__content {
+    position: relative;
+    z-index: 2;
+}
+
+.neo-terapia-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 24px;
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.neo-terapia-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+}
+
+.neo-terapia-card:hover .neo-terapia-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.neo-terapia-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.neo-terapia-description {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    opacity: 0.95;
+}
+
+.neo-terapia-beneficios {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+.neo-terapia-beneficios li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    font-size: 15px;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.neo-terapia-beneficios li:hover {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.neo-terapia-beneficios li i {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.neo-terapia-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 24px 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.neo-terapia-duracao {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.neo-terapia-pricing {
+    text-align: right;
+}
+
+.neo-terapia-price-label {
+    display: block;
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 4px;
+}
+
+.neo-terapia-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.neo-price-currency {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.neo-price-value {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.neo-terapia-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.neo-terapia-button:hover {
+    background: #fff;
+    color: #4CAF50;
+    border-color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+}
+
+.neo-terapia-button i {
+    transition: transform 0.3s ease;
+}
+
+.neo-terapia-button:hover i {
+    transform: translateX(5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .neo-terapia-card {
+        padding: 30px 20px;
+    }
+    
+    .neo-terapia-title {
+        font-size: 24px;
+    }
+    
+    .neo-terapia-footer {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .neo-terapia-pricing {
+        text-align: left;
+    }
+}
+```
+
+### JavaScript GSAP
+
+```javascript
+/**
+ * Neo Terapia Card - Advanced Interactions
+ */
+
+(function($) {
+    'use strict';
+    
+    class NeoTerapiaCard {
+        constructor(element) {
+            this.$element = $(element);
+            this.$card = this.$element.find('.neo-terapia-card');
+            this.settings = {
+                enable3D: this.$card.data('3d-enabled') === 'yes',
+                intensity3D: this.$card.data('3d-intensity') || 15,
+                enableGlow: this.$card.data('glow-enabled') === 'yes'
+            };
+            
+            this.init();
+        }
+        
+        init() {
+            // GSAP Entrance Animation
+            this.animateEntrance();
+            
+            // 3D Hover Effect
+            if (this.settings.enable3D) {
+                this.init3DHover();
+            }
+            
+            // Price Counter Animation
+            this.initPriceCounter();
+            
+            // Icon Bounce on Hover
+            this.initIconAnimation();
+        }
+        
+        animateEntrance() {
+            gsap.fromTo(
+                this.$card,
+                {
+                    opacity: 0,
+                    scale: 0.8,
+                    rotateY: -10
+                },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    rotateY: 0,
+                    duration: 0.8,
+                    ease: 'back.out(1.7)',
+                    scrollTrigger: {
+                        trigger: this.$card,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+        
+        init3DHover() {
+            const card = this.$card[0];
+            const intensity = this.settings.intensity3D;
+            
+            this.$card.on('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -intensity;
+                const rotateY = ((x - centerX) / centerX) * intensity;
+                
+                gsap.to(card, {
+                    rotateX: rotateX,
+                    rotateY: rotateY,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    transformPerspective: 1000,
+                    transformStyle: 'preserve-3d'
+                });
+            });
+            
+            this.$card.on('mouseleave', () => {
+                gsap.to(card, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            });
+        }
+        
+        initPriceCounter() {
+            const $priceValue = this.$card.find('.neo-price-value');
+            const targetPrice = parseInt($priceValue.closest('.neo-terapia-price').data('price'));
+            
+            this.$card.on('mouseenter', () => {
+                gsap.to($priceValue[0], {
+                    innerHTML: targetPrice,
+                    duration: 1,
+                    snap: { innerHTML: 1 },
+                    onUpdate: function() {
+                        const value = Math.ceil(this.targets()[0].innerHTML);
+                        $priceValue.text(value.toLocaleString('pt-BR'));
+                    }
+                });
+            });
+        }
+        
+        initIconAnimation() {
+            const $icon = this.$card.find('.neo-terapia-icon');
+            
+            this.$card.on('mouseenter', () => {
+                gsap.to($icon, {
+                    y: -10,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                });
+            });
+            
+            this.$card.on('mouseleave', () => {
+                gsap.to($icon, {
+                    y: 0,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                });
+            });
+        }
+    }
+    
+    // Initialize
+    $(window).on('elementor/frontend/init', function() {
+        elementorFrontend.hooks.addAction('frontend/element_ready/neo-terapia-card.default', function($scope) {
+            new NeoTerapiaCard($scope);
+        });
+    });
+    
+})(jQuery);
+```
+
+**Revisão e Melhoria Final Widget 2:**
+✅ 6 presets de cores por terapia (automatizado)  
+✅ Efeito 3D com perspectiva real (Three.js quality)  
+✅ Counter animation no preço (engajamento)  
+✅ Micro-interações suaves e orgânicas  
+✅ Badge flutuante para destaque  
+✅ Benefícios com ícones customizáveis  
+✅ Gradientes harmoniosos da Neo Holística  
+✅ Performance otimizada (GPU-accelerated)  
+
+---
+
+Continuando na próxima parte com Widgets 3-8... Devo prosseguir?

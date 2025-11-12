@@ -1,0 +1,992 @@
+# WIDGETS ELEMENTOR ULTRA-PREMIUM - Neo Holística PARTE 4
+## Widgets 6-11: Storytelling, Interação e Confiança
+
+---
+
+## 🎯 WIDGET 6: NEO ABOUT BEATRIZ - STORYTELLING PREMIUM
+
+### Propósito
+Contar a história da terapeuta Beatriz Cristina Pérez Fuenzalida com design emocional, humanizado e que transmita confiança profissional
+
+### Características Premium
+
+**Estrutura Visual:**
+- **Layout Assimétrico:** Foto grande à esquerda, conteúdo fluido à direita
+- **Foto com Moldura Orgânica:** Shape de folha com gradiente animado
+- **Timeline Jornada:** Linha vertical com marcos da carreira
+- **Certificações Flutuantes:** Badges 3D com hover
+- **Citação Destacada:** Frase de Beatriz em caligrafia
+- **Background Sutil:** Elementos aquarelados em verde/violeta
+
+**Layout Esquerdo (Visual):**
+- Foto profissional Beatriz (grande, 500x600px)
+- Moldura orgânica com gradiente Neo Holística
+- Elemento decorativo: folhas de monstera sutis
+- Badge flutuante "Certificada SBBio"
+- Botão flutuante "Ver Certificações"
+
+**Layout Direito (Conteúdo):**
+- Pequeno texto "Conheça a Terapeuta"
+- Nome "Beatriz Cristina Pérez Fuenzalida"
+- Subtítulo "Terapeuta Holística Certificada"
+- Biografia emotiva (3 parágrafos, ~300 palavras)
+- Citação inspiradora em destaque
+- Timeline de carreira (4-6 marcos)
+- Especialidades (tags visuais)
+- Redes sociais (ícones elegantes)
+- CTA "Agendar Consulta"
+
+**Timeline Vertical:**
+1. 2015 - Descoberta das terapias holísticas
+2. 2018 - Certificação SBBio Biomagnetismo
+3. 2020 - Formação Reiki Nível 3
+4. 2022 - Fundação Neo Holística
+5. 2024 - 500+ pacientes atendidos
+
+**Animações GSAP:**
+- **Foto:** Scale + parallax no scroll
+- **Timeline:** DrawSVG animando linha (2s)
+- **Marcos:** Aparecem sequencialmente (stagger 0.2s)
+- **Citação:** Typewriter effect (letra por letra)
+- **Badges:** Float animation (3s loop)
+
+**Controles Elementor:**
+
+1. **Foto e Visual**
+   - Foto Beatriz: Media Upload (recomendado 500x600px)
+   - Forma da Moldura: Retangular | Orgânica | Folha | Círculo
+   - Cor Borda 1: Color Picker (#4CAF50)
+   - Cor Borda 2: Color Picker (#7B68EE)
+   - Largura Borda: Slider 4-20px
+   - Animação Foto: None | Scale | Parallax | Float
+   - Mostrar Elementos Decorativos: Switcher (folhas)
+
+2. **Conteúdo Principal**
+   - Pré-título: Text ("Conheça a Terapeuta")
+   - Nome: Text ("Beatriz Cristina Pérez Fuenzalida")
+   - Subtítulo: Text ("Terapeuta Holística Certificada")
+   - Biografia Parágrafo 1: Textarea
+   - Biografia Parágrafo 2: Textarea
+   - Biografia Parágrafo 3: Textarea
+   - Citação Inspiradora: Textarea (max 100 palavras)
+   - Autor Citação: Text (default "Beatriz Cristina")
+
+3. **Timeline de Carreira (Repeater)**
+   - Ano: Number (2015-2025)
+   - Título Marco: Text
+   - Descrição Curta: Textarea (opcional)
+   - Ícone: Icon Picker
+   - Cor Destaque: Color Picker
+   - Máximo: 8 marcos
+
+4. **Especialidades (Repeater)**
+   - Especialidade 1: Text ("Biomagnetismo Médico")
+   - Ícone 1: Icon Picker
+   - Cor Tag 1: Color Picker
+   - (até 10 especialidades)
+
+5. **Certificações**
+   - Mostrar Badge SBBio: Switcher
+   - Upload Logo SBBio: Media Upload
+   - Certificação 1 Nome: Text
+   - Certificação 1 Instituição: Text
+   - Certificação 1 Ano: Number
+   - (Repeater até 5 certificações)
+
+6. **Redes Sociais**
+   - Instagram URL: URL Input
+   - Facebook URL: URL Input
+   - WhatsApp: Phone Number
+   - LinkedIn URL: URL Input (opcional)
+   - Mostrar em: Icons | Buttons | Text Links
+
+7. **Estilo e Layout**
+   - Layout: Left Image | Right Image | Stacked | Centered
+   - Background: Color | Gradient | Image
+   - Espaçamento: Compact | Normal | Spacious
+   - Alinhamento Texto: Left | Center | Right
+
+### Código PHP
+
+```php
+<?php
+class Neo_About_Beatriz_Widget extends \Elementor\Widget_Base {
+    
+    public function get_name() {
+        return 'neo-about-beatriz';
+    }
+    
+    public function get_title() {
+        return __( 'Neo About Beatriz', 'neo-holistica' );
+    }
+    
+    protected function register_controls() {
+        
+        // Foto e Visual
+        $this->start_controls_section(
+            'section_photo',
+            [
+                'label' => __( 'Foto e Visual', 'neo-holistica' ),
+            ]
+        );
+        
+        $this->add_control(
+            'foto_beatriz',
+            [
+                'label' => __( 'Foto Beatriz', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::MEDIA,
+                'default' => [
+                    'url' => \Elementor\Utils::get_placeholder_image_src(),
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'moldura_shape',
+            [
+                'label' => __( 'Forma da Moldura', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'organica',
+                'options' => [
+                    'retangular' => __( 'Retangular', 'neo-holistica' ),
+                    'organica' => __( 'Orgânica', 'neo-holistica' ),
+                    'folha' => __( 'Folha', 'neo-holistica' ),
+                    'circulo' => __( 'Círculo', 'neo-holistica' ),
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'borda_cor1',
+            [
+                'label' => __( 'Cor Borda 1', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#4CAF50',
+            ]
+        );
+        
+        $this->add_control(
+            'borda_cor2',
+            [
+                'label' => __( 'Cor Borda 2', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#7B68EE',
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        // Timeline (Repeater)
+        $this->start_controls_section(
+            'section_timeline',
+            [
+                'label' => __( 'Timeline de Carreira', 'neo-holistica' ),
+            ]
+        );
+        
+        $repeater = new \Elementor\Repeater();
+        
+        $repeater->add_control(
+            'ano',
+            [
+                'label' => __( 'Ano', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 2020,
+                'min' => 1990,
+                'max' => 2030,
+            ]
+        );
+        
+        $repeater->add_control(
+            'titulo',
+            [
+                'label' => __( 'Título do Marco', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => __( 'Certificação Biomagnetismo', 'neo-holistica' ),
+            ]
+        );
+        
+        $repeater->add_control(
+            'descricao',
+            [
+                'label' => __( 'Descrição Curta', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::TEXTAREA,
+                'rows' => 2,
+            ]
+        );
+        
+        $repeater->add_control(
+            'icone',
+            [
+                'label' => __( 'Ícone', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::ICONS,
+                'default' => [
+                    'value' => 'fas fa-certificate',
+                    'library' => 'fa-solid',
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'timeline_list',
+            [
+                'label' => __( 'Marcos da Carreira', 'neo-holistica' ),
+                'type' => \Elementor\Controls_Manager::REPEATER,
+                'fields' => $repeater->get_controls(),
+                'default' => [
+                    [
+                        'ano' => 2015,
+                        'titulo' => __( 'Descoberta das Terapias Holísticas', 'neo-holistica' ),
+                    ],
+                    [
+                        'ano' => 2018,
+                        'titulo' => __( 'Certificação SBBio', 'neo-holistica' ),
+                    ],
+                    [
+                        'ano' => 2022,
+                        'titulo' => __( 'Fundação Neo Holística', 'neo-holistica' ),
+                    ],
+                ],
+                'title_field' => '{{{ ano }}} - {{{ titulo }}}',
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        // Continue outras seções...
+    }
+    
+    protected function render() {
+        $settings = $this->get_settings_for_display();
+        
+        // SVG Clip-path para forma orgânica
+        $organic_shapes = [
+            'organica' => 'polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%)',
+            'folha' => 'ellipse(50% 50% at 50% 50%)',
+            'circulo' => 'circle(50% at 50% 50%)',
+        ];
+        
+        $clip_path = isset($organic_shapes[$settings['moldura_shape']]) 
+            ? $organic_shapes[$settings['moldura_shape']] 
+            : 'none';
+        
+        $gradient = sprintf(
+            'linear-gradient(135deg, %s, %s)',
+            $settings['borda_cor1'],
+            $settings['borda_cor2']
+        );
+        
+        ?>
+        <div class="neo-about-beatriz">
+            
+            <div class="neo-about-photo-wrapper" data-gsap-animate="scaleIn">
+                <div class="neo-about-photo-frame" style="background: <?php echo esc_attr($gradient); ?>">
+                    <img src="<?php echo esc_url($settings['foto_beatriz']['url']); ?>" 
+                         alt="Beatriz Cristina"
+                         class="neo-about-photo"
+                         style="clip-path: <?php echo esc_attr($clip_path); ?>">
+                </div>
+                
+                <div class="neo-about-badge-sbbio">
+                    <i class="fas fa-certificate"></i>
+                    <span><?php esc_html_e('Certificada SBBio', 'neo-holistica'); ?></span>
+                </div>
+            </div>
+            
+            <div class="neo-about-content">
+                
+                <span class="neo-about-pretitle" data-gsap-animate="fadeIn">
+                    <?php echo esc_html($settings['pretitulo']); ?>
+                </span>
+                
+                <h2 class="neo-about-name" data-gsap-animate="fadeInUp">
+                    <?php echo esc_html($settings['nome']); ?>
+                </h2>
+                
+                <h3 class="neo-about-subtitle" data-gsap-animate="fadeInUp" data-gsap-delay="0.2">
+                    <?php echo esc_html($settings['subtitulo']); ?>
+                </h3>
+                
+                <div class="neo-about-bio">
+                    <?php if (!empty($settings['bio_p1'])) : ?>
+                        <p data-gsap-animate="fadeIn" data-gsap-delay="0.3">
+                            <?php echo wp_kses_post($settings['bio_p1']); ?>
+                        </p>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($settings['bio_p2'])) : ?>
+                        <p data-gsap-animate="fadeIn" data-gsap-delay="0.4">
+                            <?php echo wp_kses_post($settings['bio_p2']); ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+                
+                <?php if (!empty($settings['citacao'])) : ?>
+                    <blockquote class="neo-about-quote" data-gsap-animate="typewriter">
+                        "<?php echo esc_html($settings['citacao']); ?>"
+                        <cite>— <?php echo esc_html($settings['autor_citacao']); ?></cite>
+                    </blockquote>
+                <?php endif; ?>
+                
+                <?php if (!empty($settings['timeline_list'])) : ?>
+                    <div class="neo-about-timeline">
+                        <div class="neo-timeline-line"></div>
+                        
+                        <?php foreach ($settings['timeline_list'] as $index => $item) : ?>
+                            <div class="neo-timeline-item" data-gsap-animate="fadeInLeft" data-gsap-delay="<?php echo ($index * 0.15); ?>">
+                                <div class="neo-timeline-icon">
+                                    <?php \Elementor\Icons_Manager::render_icon($item['icone'], ['aria-hidden' => 'true']); ?>
+                                </div>
+                                <div class="neo-timeline-content">
+                                    <span class="neo-timeline-year"><?php echo esc_html($item['ano']); ?></span>
+                                    <h4 class="neo-timeline-title"><?php echo esc_html($item['titulo']); ?></h4>
+                                    <?php if (!empty($item['descricao'])) : ?>
+                                        <p class="neo-timeline-desc"><?php echo esc_html($item['descricao']); ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                
+            </div>
+            
+        </div>
+        <?php
+    }
+}
+```
+
+### CSS Premium
+
+```css
+/* Neo About Beatriz */
+
+.neo-about-beatriz {
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    gap: 80px;
+    padding: 80px 0;
+    align-items: start;
+}
+
+.neo-about-photo-wrapper {
+    position: relative;
+    animation: neo-float 6s ease-in-out infinite;
+}
+
+@keyframes neo-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.neo-about-photo-frame {
+    padding: 12px;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    overflow: hidden;
+    position: relative;
+}
+
+.neo-about-photo-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(20px);
+    opacity: 0.3;
+    animation: neo-frame-pulse 4s ease-in-out infinite;
+}
+
+@keyframes neo-frame-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.neo-about-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: inherit;
+    filter: brightness(1.05) contrast(1.1);
+}
+
+.neo-about-badge-sbbio {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: #fff;
+    color: #4CAF50;
+    padding: 12px 24px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    animation: neo-badge-float 3s ease-in-out infinite;
+}
+
+@keyframes neo-badge-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.neo-about-content {
+    max-width: 700px;
+}
+
+.neo-about-pretitle {
+    display: inline-block;
+    color: #4CAF50;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+}
+
+.neo-about-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.neo-about-subtitle {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #7B68EE;
+    margin-bottom: 32px;
+}
+
+.neo-about-bio p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.neo-about-quote {
+    position: relative;
+    padding: 30px 40px;
+    margin: 40px 0;
+    background: linear-gradient(135deg, rgba(76,175,80,0.1), rgba(123,104,238,0.1));
+    border-left: 4px solid #4CAF50;
+    border-radius: 0 16px 16px 0;
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: #333;
+    line-height: 1.7;
+}
+
+.neo-about-quote::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 80px;
+    color: rgba(76,175,80,0.2);
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+.neo-about-quote cite {
+    display: block;
+    margin-top: 16px;
+    font-size: 16px;
+    font-style: normal;
+    color: #7B68EE;
+    font-weight: 600;
+}
+
+.neo-about-timeline {
+    position: relative;
+    padding-left: 60px;
+    margin-top: 50px;
+}
+
+.neo-timeline-line {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #4CAF50, #7B68EE);
+}
+
+.neo-timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.neo-timeline-icon {
+    position: absolute;
+    left: -48px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border: 3px solid #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4CAF50;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.neo-timeline-year {
+    display: inline-block;
+    background: #4CAF50;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.neo-timeline-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.neo-timeline-desc {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .neo-about-beatriz {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    
+    .neo-about-photo-wrapper {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+```
+
+---
+
+## 🎯 WIDGET 7: NEO BOOKING FORM ADVANCED
+
+### Propósito
+Formulário de agendamento premium com seleção de terapia, data/hora, validação em tempo real e integração WhatsApp
+
+### Características Premium
+
+**Estrutura Visual:**
+- **Multi-Step Form:** 3 etapas com progress bar
+- **Seleção Visual de Terapia:** Cards clicáveis
+- **Date Picker Premium:** Calendário customizado
+- **Time Slots:** Horários disponíveis em grid
+- **Validação Real-time:** Feedback instantâneo
+- **Confirmação Animada:** Success screen com confetti
+
+**Etapas do Formulário:**
+
+**Step 1: Escolha sua Terapia**
+- Grid de cards (3 colunas)
+- Cada card: Ícone + Nome + Preço + Duração
+- Card ativo: Borda gradiente + glow
+- Botão "Continuar"
+
+**Step 2: Dados Pessoais**
+- Nome Completo (obrigatório)
+- Email (validação formato)
+- Telefone/WhatsApp (mask brasileiro)
+- Mensagem (opcional)
+- Checkbox LGPD (obrigatório)
+- Botão "Continuar"
+
+**Step 3: Data e Horário**
+- Calendário visual (próximos 30 dias)
+- Grade de horários disponíveis
+- Resumo da seleção (sidebar)
+- Preço total
+- Botão "Confirmar Agendamento"
+
+**Integrações:**
+- **WhatsApp API:** Envio automático mensagem
+- **Google Calendar:** Criar evento (opcional)
+- **Email Notification:** Para cliente e terapeuta
+- **ACF Save:** Salvar no WordPress
+
+**Controles Elementor:**
+
+1. **Terapias Disponíveis (Repeater)**
+   - Terapia ID: Select (CPT Terapia)
+   - Ícone: Icon Picker
+   - Preço: Number (puxar de ACF)
+   - Duração: Text (puxar de ACF)
+   - Cor Destaque: Color Picker
+
+2. **Configurações Calendário**
+   - Dias Disponíveis: Checkbox (Seg-Dom)
+   - Horário Início: Time Picker (09:00)
+   - Horário Fim: Time Picker (18:00)
+   - Intervalo Entre Sessões: Slider 15-120min
+   - Dias Bloqueados: Date Picker (múltiplo)
+
+3. **Notificações**
+   - Enviar WhatsApp: Switcher
+   - Número WhatsApp: Phone
+   - Mensagem Template: Textarea (variáveis)
+   - Enviar Email Cliente: Switcher
+   - Enviar Email Terapeuta: Switcher
+   - Email Terapeuta: Email Input
+
+4. **Validação e Campos**
+   - Campos Obrigatórios: Multi-select
+   - Validação Telefone: BR | Internacional
+   - Mostrar Checkbox LGPD: Switcher
+   - Texto LGPD: Textarea
+   - Redirect Após Sucesso: URL
+
+5. **Estilo Visual**
+   - Cores Progress Bar: Color Picker
+   - Estilo Cards: Grid | List
+   - Animação Transição: Fade | Slide | Scale
+   - Botão CTA Cor: Gradient
+
+**Validações em Tempo Real:**
+- Nome: Mínimo 3 caracteres
+- Email: Formato válido (@)
+- Telefone: (XX) XXXXX-XXXX
+- Data: Não permitir passado
+- Horário: Verificar disponibilidade
+
+### JavaScript Avançado
+
+```javascript
+/**
+ * Neo Booking Form Advanced
+ */
+
+class NeoBookingForm {
+    constructor(element) {
+        this.$form = $(element);
+        this.currentStep = 1;
+        this.totalSteps = 3;
+        this.formData = {};
+        
+        this.init();
+    }
+    
+    init() {
+        this.initStepNavigation();
+        this.initTerapiaSelection();
+        this.initDatePicker();
+        this.initTimeSlots();
+        this.initValidation();
+        this.initSubmit();
+    }
+    
+    initStepNavigation() {
+        this.$form.find('.neo-form-next').on('click', (e) => {
+            e.preventDefault();
+            if (this.validateCurrentStep()) {
+                this.nextStep();
+            }
+        });
+        
+        this.$form.find('.neo-form-prev').on('click', (e) => {
+            e.preventDefault();
+            this.prevStep();
+        });
+    }
+    
+    nextStep() {
+        if (this.currentStep < this.totalSteps) {
+            this.animateStepTransition(this.currentStep, this.currentStep + 1);
+            this.currentStep++;
+            this.updateProgressBar();
+        }
+    }
+    
+    prevStep() {
+        if (this.currentStep > 1) {
+            this.animateStepTransition(this.currentStep, this.currentStep - 1);
+            this.currentStep--;
+            this.updateProgressBar();
+        }
+    }
+    
+    animateStepTransition(from, to) {
+        const $fromStep = this.$form.find(`.neo-form-step[data-step="${from}"]`);
+        const $toStep = this.$form.find(`.neo-form-step[data-step="${to}"]`);
+        
+        gsap.to($fromStep, {
+            opacity: 0,
+            x: -50,
+            duration: 0.3,
+            onComplete: () => {
+                $fromStep.hide();
+                $toStep.show();
+                
+                gsap.fromTo($toStep, 
+                    { opacity: 0, x: 50 },
+                    { opacity: 1, x: 0, duration: 0.3 }
+                );
+            }
+        });
+    }
+    
+    updateProgressBar() {
+        const progress = (this.currentStep / this.totalSteps) * 100;
+        
+        gsap.to(this.$form.find('.neo-progress-fill'), {
+            width: `${progress}%`,
+            duration: 0.5,
+            ease: 'power2.out'
+        });
+        
+        // Atualizar step indicators
+        this.$form.find('.neo-step-indicator').each((index, el) => {
+            if (index < this.currentStep) {
+                $(el).addClass('completed');
+            } else if (index === this.currentStep - 1) {
+                $(el).addClass('active');
+            } else {
+                $(el).removeClass('active completed');
+            }
+        });
+    }
+    
+    initTerapiaSelection() {
+        this.$form.find('.neo-terapia-option').on('click', function() {
+            $(this).siblings().removeClass('selected');
+            $(this).addClass('selected');
+            
+            // Animar seleção
+            gsap.to($(this), {
+                scale: 1.05,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1
+            });
+        });
+    }
+    
+    initDatePicker() {
+        // Integração Flatpickr ou custom calendar
+        const calendar = this.$form.find('.neo-date-picker');
+        
+        flatpickr(calendar[0], {
+            locale: 'pt',
+            minDate: 'today',
+            maxDate: new Date().fp_incr(30),
+            disable: this.getDisabledDates(),
+            onChange: (selectedDates, dateStr) => {
+                this.formData.date = dateStr;
+                this.loadAvailableTimeSlots(dateStr);
+            }
+        });
+    }
+    
+    loadAvailableTimeSlots(date) {
+        // AJAX para buscar horários disponíveis
+        $.ajax({
+            url: neoAjax.ajaxurl,
+            method: 'POST',
+            data: {
+                action: 'neo_get_time_slots',
+                date: date,
+                terapia: this.formData.terapia_id,
+                nonce: neoAjax.nonce
+            },
+            success: (response) => {
+                this.renderTimeSlots(response.data.slots);
+            }
+        });
+    }
+    
+    renderTimeSlots(slots) {
+        const $grid = this.$form.find('.neo-time-slots-grid');
+        $grid.empty();
+        
+        slots.forEach((slot, index) => {
+            const $slot = $(`
+                <button type="button" class="neo-time-slot" data-time="${slot.time}">
+                    ${slot.time}
+                </button>
+            `);
+            
+            $slot.on('click', function() {
+                $(this).siblings().removeClass('selected');
+                $(this).addClass('selected');
+            });
+            
+            $grid.append($slot);
+            
+            // Animar entrada
+            gsap.fromTo($slot,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.3, delay: index * 0.05 }
+            );
+        });
+    }
+    
+    initValidation() {
+        // Validação em tempo real
+        this.$form.find('[required]').on('blur', function() {
+            const $field = $(this);
+            const value = $field.val();
+            
+            if (!value) {
+                $field.addClass('error');
+                $field.siblings('.neo-error-message').text('Este campo é obrigatório');
+            } else {
+                $field.removeClass('error');
+                $field.siblings('.neo-error-message').text('');
+            }
+        });
+        
+        // Validação email
+        this.$form.find('input[type="email"]').on('blur', function() {
+            const $field = $(this);
+            const email = $field.val();
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!regex.test(email)) {
+                $field.addClass('error');
+                $field.siblings('.neo-error-message').text('Email inválido');
+            }
+        });
+        
+        // Mask telefone
+        this.$form.find('input[type="tel"]').mask('(00) 00000-0000');
+    }
+    
+    validateCurrentStep() {
+        let isValid = true;
+        const $currentStep = this.$form.find(`.neo-form-step[data-step="${this.currentStep}"]`);
+        
+        $currentStep.find('[required]').each(function() {
+            const $field = $(this);
+            if (!$field.val()) {
+                $field.addClass('error');
+                isValid = false;
+            }
+        });
+        
+        // Validações específicas por step
+        if (this.currentStep === 1) {
+            if (!this.$form.find('.neo-terapia-option.selected').length) {
+                alert('Por favor, selecione uma terapia');
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+    
+    initSubmit() {
+        this.$form.on('submit', (e) => {
+            e.preventDefault();
+            
+            if (!this.validateCurrentStep()) {
+                return;
+            }
+            
+            this.submitBooking();
+        });
+    }
+    
+    submitBooking() {
+        // Coletar todos os dados
+        this.formData = {
+            terapia: this.$form.find('.neo-terapia-option.selected').data('terapia-id'),
+            nome: this.$form.find('[name="nome"]').val(),
+            email: this.$form.find('[name="email"]').val(),
+            telefone: this.$form.find('[name="telefone"]').val(),
+            data: this.formData.date,
+            horario: this.$form.find('.neo-time-slot.selected').data('time'),
+            mensagem: this.$form.find('[name="mensagem"]').val()
+        };
+        
+        // Mostrar loading
+        this.showLoading();
+        
+        // AJAX submit
+        $.ajax({
+            url: neoAjax.ajaxurl,
+            method: 'POST',
+            data: {
+                action: 'neo_submit_booking',
+                formData: this.formData,
+                nonce: neoAjax.nonce
+            },
+            success: (response) => {
+                this.showSuccess(response.data);
+            },
+            error: () => {
+                this.showError();
+            }
+        });
+    }
+    
+    showSuccess(data) {
+        // Esconder form
+        this.$form.find('.neo-form-steps').fadeOut();
+        
+        // Mostrar success screen
+        const $success = this.$form.find('.neo-form-success');
+        $success.fadeIn();
+        
+        // Confetti animation
+        this.launchConfetti();
+        
+        // Enviar WhatsApp (opcional)
+        if (data.whatsapp_url) {
+            setTimeout(() => {
+                window.open(data.whatsapp_url, '_blank');
+            }, 2000);
+        }
+    }
+    
+    launchConfetti() {
+        // Usar biblioteca confetti-js ou canvas-confetti
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+    
+    showLoading() {
+        this.$form.find('.neo-form-submit').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Agendando...');
+    }
+    
+    showError() {
+        alert('Erro ao agendar. Tente novamente.');
+        this.$form.find('.neo-form-submit').prop('disabled', false).html('Tentar Novamente');
+    }
+}
+
+// Initialize
+$(window).on('elementor/frontend/init', function() {
+    elementorFrontend.hooks.addAction('frontend/element_ready/neo-booking-form.default', function($scope) {
+        new NeoBookingForm($scope.find('.neo-booking-form'));
+    });
+});
+```
+
+---
+
+Continuo com Widgets 8-11 na próxima parte...

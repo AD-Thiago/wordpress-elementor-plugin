@@ -1,0 +1,637 @@
+# WIDGETS ELEMENTOR ULTRA-PREMIUM - Neo Holística PARTE 3
+## Widgets 3-8: Best-Class Premium Continuação
+
+---
+
+## 🎯 WIDGET 3: NEO BIOMAGNETISMO SHOWCASE
+
+### Propósito
+Widget dedicado exclusivamente ao **Biomagnetismo** (serviço mais caro R$ 110), com demonstração visual interativa dos ímãs e efeitos de cura
+
+### Características Premium
+
+**Estrutura Visual:**
+- **Seção Split:** 50% conteúdo / 50% visualização 3D
+- **Animação de Ímãs:** Dois ímãs (vermelho/preto) se aproximando
+- **Campo Magnético:** Partículas formando linhas de campo
+- **pH Meter Animation:** Medidor animado mostrando equilíbrio
+- **Certificação SBBio:** Badge oficial com selo
+- **Video Explicativo:** Integração YouTube com modal
+
+**Layout Esquerdo (Conteúdo):**
+- Badge "Terapia Destaque" com ícone ímã
+- Título "Biomagnetismo Médico"
+- Subtítulo "Par Biomagnético - Técnica Certificada SBBio"
+- Descrição detalhada (200 palavras)
+- Lista de benefícios (5 itens com ícones)
+- Depoimentos rápidos (mini-carousel)
+- Preço destacado R$ 110
+- CTAs: "Agendar Avaliação" + "Assistir Vídeo"
+
+**Layout Direito (Visualização):**
+- Canvas Three.js com ímãs 3D
+- Partículas formando campo magnético
+- Infográfico pH corporal
+- Ícones flutuantes: vírus, bactérias, fungos (eliminados)
+
+**Animações GSAP:**
+- **Ímãs:** Movimento de aproximação (3s loop)
+- **Campo Magnético:** Partículas fluindo (continuous)
+- **pH Meter:** Needle animation de ácido→neutro (2s)
+- **Texto:** Fade in staggered (0.1s delay)
+- **Infográfico:** DrawSVG animando paths
+
+**Controles Elementor:**
+
+1. **Conteúdo Principal**
+   - Título: Text Editor (rich text)
+   - Subtítulo: Text Input
+   - Descrição Detalhada: WYSIWYG Editor
+   - Mostrar Certificação SBBio: Switcher
+   - Upload Selo SBBio: Media Upload
+
+2. **Benefícios do Biomagnetismo (Repeater)**
+   - Benefício 1: Text + Icon
+   - Benefício 2: Text + Icon
+   - Benefício 3: Text + Icon
+   - (até 10 benefícios)
+
+3. **Visualização 3D**
+   - Habilitar Animação 3D: Switcher
+   - Cor Ímã Norte: Color Picker (#FF0000)
+   - Cor Ímã Sul: Color Picker (#000000)
+   - Velocidade Animação: Slider 0.5-5s
+   - Quantidade Partículas: Slider 50-200
+   - Mostrar pH Meter: Switcher
+
+4. **Depoimentos**
+   - Habilitar Carousel: Switcher
+   - Depoimento 1: Textarea + Nome + Foto
+   - Depoimento 2: Textarea + Nome + Foto
+   - Depoimento 3: Textarea + Nome + Foto
+   - Velocidade Transição: Slider 3-10s
+
+5. **Vídeo Explicativo**
+   - URL YouTube: URL Input
+   - Thumbnail Custom: Media Upload
+   - Abrir em Modal: Yes/No
+   - Autoplay no Modal: Yes/No
+
+6. **Pricing e CTA**
+   - Preço: Number (110)
+   - Texto Preço Complemento: Text ("Sessão de 60min")
+   - CTA Principal Texto: Text ("Agendar Avaliação")
+   - CTA Principal Link: URL
+   - CTA Secundário Texto: Text ("Assistir Vídeo")
+
+7. **Layout e Cores**
+   - Layout: Left Content | Right Content | Stacked
+   - Background Gradient: Preset | Custom
+   - Cor Primária: #4CAF50
+   - Cor Secundária: #7B68EE
+
+### Código Estrutural (Resumido por Espaço)
+
+```php
+<?php
+class Neo_Biomagnetismo_Showcase_Widget extends \Elementor\Widget_Base {
+    
+    public function get_name() {
+        return 'neo-biomagnetismo-showcase';
+    }
+    
+    public function get_title() {
+        return __( 'Neo Biomagnetismo Showcase', 'neo-holistica' );
+    }
+    
+    protected function render() {
+        $settings = $this->get_settings_for_display();
+        ?>
+        <div class="neo-biomagnetismo-showcase">
+            <div class="neo-bio-content">
+                <div class="neo-bio-badge">
+                    <i class="fas fa-magnet"></i>
+                    <?php esc_html_e( 'Terapia Destaque', 'neo-holistica' ); ?>
+                </div>
+                
+                <h2 class="neo-bio-title" data-gsap-animate="fadeInUp">
+                    <?php echo wp_kses_post( $settings['titulo'] ); ?>
+                </h2>
+                
+                <h3 class="neo-bio-subtitle" data-gsap-animate="fadeInUp" data-gsap-delay="0.2">
+                    <?php echo esc_html( $settings['subtitulo'] ); ?>
+                </h3>
+                
+                <!-- Conteúdo, benefícios, etc -->
+            </div>
+            
+            <div class="neo-bio-visualization">
+                <?php if ( 'yes' === $settings['enable_3d'] ) : ?>
+                    <div id="neo-bio-canvas-<?php echo $this->get_id(); ?>" 
+                         class="neo-bio-canvas"
+                         data-magnets-speed="<?php echo esc_attr( $settings['animation_speed']['size'] ); ?>">
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+    }
+}
+```
+
+---
+
+## 🎯 WIDGET 4: NEO DEPOIMENTOS CAROUSEL ORGÂNICO
+
+### Propósito
+Carrossel de depoimentos com design orgânico, transições suaves e elementos visuais que remetem à natureza
+
+### Características Premium
+
+**Estrutura Visual:**
+- **Cards Orgânicos:** Bordas onduladas tipo folha
+- **Foto Circular:** Borda gradiente animada
+- **Estrelas Avaliação:** Animação de preenchimento
+- **Aspas Decorativas:** SVG em watermark
+- **Background Aquarelado:** Efeito pincel suave
+- **Navegação:** Setas customizadas + dots animados
+
+**Layout do Card:**
+- Foto do cliente (círculo 80px, borda gradiente)
+- Nome do cliente (Poppins 18px bold)
+- Avaliação estrelas (1-5, animadas)
+- Terapia relacionada (badge)
+- Texto depoimento (máx 150 palavras)
+- Data do depoimento
+
+**Animações:**
+- **Entrada:** Fade + scale from 0.9
+- **Transição:** Slide com parallax
+- **Estrelas:** Fill animation sequencial
+- **Foto Hover:** Scale 1.1 + glow
+- **Background:** Gradient shift suave
+
+**Controles Elementor:**
+
+1. **Depoimentos (Repeater)**
+   - Foto Cliente: Media Upload
+   - Nome Cliente: Text Input
+   - Avaliação: Slider 1-5 estrelas
+   - Terapia: Select (Biomagnetismo | Reiki | etc)
+   - Depoimento: Textarea (max 150 palavras)
+   - Data: Date Picker
+   - Verificado: Switcher (badge "Verificado")
+
+2. **Configurações Carousel**
+   - Itens por Linha: Slider 1-3 (responsive)
+   - Autoplay: Switcher
+   - Velocidade Autoplay: Slider 3-10s
+   - Transição: Slide | Fade | Flip
+   - Duração Transição: Slider 0.3-1.5s
+   - Loop Infinito: Switcher
+   - Pausar no Hover: Switcher
+
+3. **Navegação**
+   - Mostrar Setas: Switcher
+   - Posição Setas: Inside | Outside
+   - Cor Setas: Color Picker
+   - Mostrar Dots: Switcher
+   - Estilo Dots: Circles | Lines | Custom
+   - Cor Dots Ativo: Color Picker
+
+4. **Estilo Visual**
+   - Shape do Card: Retangular | Orgânico | Folha
+   - Background Card: Color + Opacity
+   - Cor Borda Foto: Gradient Picker
+   - Mostrar Aspas: Switcher
+   - Cor Aspas: Color Picker + Opacity
+   - Efeito Aquarela: Switcher
+
+5. **Tipografia**
+   - Nome Font: Google Fonts
+   - Nome Size: Responsive Slider
+   - Nome Weight: 300-900
+   - Depoimento Font: Google Fonts
+   - Depoimento Size: Responsive Slider
+
+### Código JavaScript Swiper
+
+```javascript
+/**
+ * Neo Depoimentos Carousel
+ */
+
+class NeoDepoimentosCarousel {
+    constructor(element) {
+        this.$element = $(element);
+        this.settings = this.getSettings();
+        this.initSwiper();
+        this.initAnimations();
+    }
+    
+    getSettings() {
+        return {
+            autoplay: this.$element.data('autoplay') === 'yes',
+            speed: this.$element.data('speed') || 5000,
+            transition: this.$element.data('transition') || 'slide',
+            itemsPerRow: this.$element.data('items-per-row') || 1,
+            loop: this.$element.data('loop') === 'yes',
+            pauseOnHover: this.$element.data('pause-hover') === 'yes'
+        };
+    }
+    
+    initSwiper() {
+        this.swiper = new Swiper(this.$element.find('.swiper')[0], {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: this.settings.loop,
+            speed: 800,
+            autoplay: this.settings.autoplay ? {
+                delay: this.settings.speed,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: this.settings.pauseOnHover
+            } : false,
+            effect: this.settings.transition,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                renderBullet: function(index, className) {
+                    return '<span class="' + className + '"><span class="neo-dot-progress"></span></span>';
+                }
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: Math.min(2, this.settings.itemsPerRow),
+                },
+                1024: {
+                    slidesPerView: this.settings.itemsPerRow,
+                }
+            },
+            on: {
+                slideChange: () => {
+                    this.animateStars();
+                }
+            }
+        });
+    }
+    
+    initAnimations() {
+        // Animar entrada dos cards
+        gsap.fromTo(
+            this.$element.find('.neo-depoimento-card'),
+            { opacity: 0, y: 30, scale: 0.95 },
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'back.out(1.7)',
+                scrollTrigger: {
+                    trigger: this.$element,
+                    start: 'top 80%'
+                }
+            }
+        );
+        
+        // Animar estrelas no slide ativo
+        this.animateStars();
+    }
+    
+    animateStars() {
+        const $activeSlide = $(this.swiper.slides[this.swiper.activeIndex]);
+        const $stars = $activeSlide.find('.neo-star');
+        
+        $stars.each(function(index) {
+            gsap.fromTo(
+                $(this).find('.neo-star-fill'),
+                { scaleX: 0, transformOrigin: 'left' },
+                {
+                    scaleX: 1,
+                    duration: 0.3,
+                    delay: index * 0.1,
+                    ease: 'power2.out'
+                }
+            );
+        });
+    }
+}
+
+// Initialize
+$(window).on('elementor/frontend/init', function() {
+    elementorFrontend.hooks.addAction('frontend/element_ready/neo-depoimentos-carousel.default', function($scope) {
+        new NeoDepoimentosCarousel($scope);
+    });
+});
+```
+
+---
+
+## 🎯 WIDGET 5: NEO PRICING TABLE HOLISTIC
+
+### Propósito
+Tabela de preços para todas as terapias com design harmonioso, comparação visual e destaque inteligente
+
+### Características Premium
+
+**Estrutura Visual:**
+- **3 Colunas Responsivas:** Mobile empilhadas
+- **Card Destacado:** Coluna central com scale 1.1
+- **Gradiente Por Terapia:** Cores únicas
+- **Ícone Animado:** Hover bounce
+- **Lista Recursos:** Check icons com reveal
+- **Badge "Popular":** Floating badge
+- **Botão CTA:** Gradiente com arrow
+
+**Layout Por Coluna:**
+- Header com gradiente
+- Ícone da terapia (SVG 60px)
+- Nome da terapia
+- Preço grande (R$ XX)
+- Duração ("60 minutos")
+- Linha divisória decorativa
+- Lista de recursos (5-8 itens)
+- Botão CTA
+- Badge "Mais Procurada" (se popular)
+
+**Recursos Comuns:**
+- ✓ Avaliação inicial gratuita
+- ✓ Atendimento personalizado
+- ✓ Certificação profissional
+- ✓ Ambiente harmonioso
+- ✓ Materiais de qualidade
+
+**Controles Elementor:**
+
+1. **Terapias (Repeater - até 6)**
+   - Nome Terapia: Text
+   - Ícone: Icon Picker | SVG Upload
+   - Preço: Number
+   - Duração: Text
+   - Cor Primária: Color Picker
+   - Cor Secundária: Color Picker
+   - Popular: Switcher
+   - Recursos (Sub-Repeater): Text + Icon
+
+2. **Layout Table**
+   - Colunas Por Linha: 2 | 3 | 4
+   - Coluna Destacada: None | 1 | 2 | 3
+   - Espaçamento Entre Cards: Slider 20-60px
+   - Altura Cards: Auto | Equal
+
+3. **Estilo Header**
+   - Altura Header: Slider 120-250px
+   - Gradiente Angle: Slider 0-360°
+   - Mostrar Ícone: Switcher
+   - Tamanho Ícone: Slider 40-100px
+
+4. **Estilo Preço**
+   - Tamanho Preço: Slider 32-72px
+   - Cor Preço: Color Picker
+   - Mostrar "R$": Switcher
+   - Animação Counter: Switcher
+
+5. **Lista Recursos**
+   - Ícone Check: Icon Picker
+   - Cor Ícone: Color Picker
+   - Fonte Lista: Google Fonts
+   - Tamanho Fonte: Slider 14-18px
+
+6. **Botão CTA**
+   - Texto Padrão: Text ("Agendar Sessão")
+   - Estilo: Gradiente | Sólido | Outline
+   - Tamanho: Small | Medium | Large
+   - Hover Effect: Lift | Scale | Glow
+
+### CSS Premium
+
+```css
+/* Neo Pricing Table */
+
+.neo-pricing-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px 0;
+}
+
+.neo-pricing-column {
+    position: relative;
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neo-pricing-column:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.neo-pricing-column--popular {
+    transform: scale(1.08);
+    z-index: 10;
+    box-shadow: 0 15px 50px rgba(76, 175, 80, 0.25);
+}
+
+.neo-pricing-column--popular::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid currentColor;
+    border-radius: 24px;
+    opacity: 0.3;
+    animation: neo-pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes neo-pulse-border {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.02);
+        opacity: 0.5;
+    }
+}
+
+.neo-pricing-header {
+    position: relative;
+    padding: 40px 30px;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+}
+
+.neo-pricing-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: neo-header-shimmer 8s ease-in-out infinite;
+}
+
+.neo-pricing-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.neo-pricing-column:hover .neo-pricing-icon {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.neo-pricing-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.neo-pricing-body {
+    padding: 40px 30px;
+}
+
+.neo-pricing-price {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.neo-price-currency {
+    font-size: 24px;
+    font-weight: 400;
+    color: #4CAF50;
+}
+
+.neo-price-value {
+    font-size: 56px;
+    font-weight: 700;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+.neo-price-duration {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+}
+
+.neo-pricing-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+    margin: 30px auto;
+}
+
+.neo-pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+.neo-pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    font-size: 15px;
+    color: #555;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: neo-feature-reveal 0.5s ease-out forwards;
+}
+
+.neo-pricing-features li:nth-child(1) { animation-delay: 0.1s; }
+.neo-pricing-features li:nth-child(2) { animation-delay: 0.2s; }
+.neo-pricing-features li:nth-child(3) { animation-delay: 0.3s; }
+.neo-pricing-features li:nth-child(4) { animation-delay: 0.4s; }
+.neo-pricing-features li:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes neo-feature-reveal {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.neo-pricing-features li i {
+    color: #4CAF50;
+    font-size: 18px;
+}
+
+.neo-pricing-cta {
+    width: 100%;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, #4CAF50, #7B68EE);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.neo-pricing-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+.neo-pricing-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    color: #4CAF50;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    animation: neo-badge-float 3s ease-in-out infinite;
+}
+
+@keyframes neo-badge-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .neo-pricing-table {
+        grid-template-columns: 1fr;
+    }
+    
+    .neo-pricing-column--popular {
+        transform: scale(1);
+    }
+}
+```
+
+---
+
+Continuando com Widgets 6-8 na próxima parte... Devo prosseguir?
